@@ -6,7 +6,9 @@
   "scripts": {
     "start": "coffee scripts/start.coffee",
     "test": "coffee scripts/test.coffee",
-    "ai": "coffee scripts/ai.coffee"
+    "ai": "coffee scripts/ai.coffee",
+    "nvm": "coffee scripts/nvm.coffee",
+    "nvm:restore": "coffee scripts/nvm-restore.coffee"
   },
   "keywords": [],
   "author": "",

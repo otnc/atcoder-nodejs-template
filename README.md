@@ -5,24 +5,41 @@ AtCoder の問題を JavaScript で解くためのヘルパーツールです。
 ## セットアップ
 
 ```bash
+pnpm nvm       # .nvmrc のバージョンに切り替え（未インストールなら自動インストール）
 pnpm install
 ```
+
+> Unix/macOS の場合は `bash scripts/nvm.sh` を使用してください。
 
 ## ディレクトリ構成
 
 ```
 q/
-  YYYYMMDD/        # コンテスト日付ごとのディレクトリ（JST）
+  YYYYMMDD/           # コンテスト日付ごとのディレクトリ（JST）
     a.js
     b.js
     ...
 scripts/
-  start.coffee     # ファイル生成スクリプト
-  test.coffee      # 実行スクリプト
-template.js        # 問題ファイルのテンプレート
+  start.coffee        # ファイル生成スクリプト
+  test.coffee         # 実行スクリプト
+  nvm.coffee          # Node バージョン切り替え（OS 判定ディスパッチャー）
+  nvm.ps1             # Windows 用
+  nvm.sh              # Unix/macOS 用
+  nvm-restore.coffee  # バージョン復元（OS 判定ディスパッチャー）
+  nvm-restore.ps1     # Windows 用
+  nvm-restore.sh      # Unix/macOS 用
+template.js           # 問題ファイルのテンプレート
+.nvmrc                # 使用する Node.js バージョン
 ```
 
 ## 使い方
+
+### Node.js バージョンの切り替え
+
+```bash
+pnpm nvm          # 現在のバージョンを .nvm-prev に保存し、.nvmrc のバージョンへ切り替え
+pnpm nvm:restore  # .nvm-prev のバージョンに戻す
+```
 
 ### 問題ファイルを作成する
 
@@ -76,3 +93,4 @@ function main(input) {
 const input = fs.readFileSync(0, 'utf-8', '/dev/stdin')
 main(input)
 ```
+
