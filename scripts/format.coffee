@@ -27,6 +27,9 @@ if specifiedDate
     process.exit 1
   dateDir = specifiedDate
 else
+  unless existsSync qDir
+    console.error 'No problems found. Run pnpm start first.'
+    process.exit 1
   dirs = readdirSync(qDir)
     .filter (d) -> statSync(join qDir, d).isDirectory()
     .sort (a, b) ->
