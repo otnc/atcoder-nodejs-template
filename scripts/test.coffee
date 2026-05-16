@@ -1,4 +1,4 @@
-{ existsSync, readdirSync, statSync } = require 'fs'
+{ existsSync, readdirSync, statSync, readFileSync } = require 'fs'
 { join } = require 'path'
 { spawnSync } = require 'child_process'
 dayjs    = require 'dayjs'
@@ -38,8 +38,29 @@ else
     process.exit 1
 
 filePath = join qDir, dateDir, "#{problem}.js"
-console.log "Running: #{filePath}"
-console.log "(Input: ^Z + Enter to execute)\n"
 
-result = spawnSync 'node', [filePath], { stdio: 'inherit' }
-process.exit result.status ? 0
+# Check for mock files (q/YYYYMMDD/mock/[problem]/[number].txt)
+mockDir = join qDir, dateDir, 'mock', problem
+mockFiles = if existsSync mockDir
+  readdirSync(mockDir)
+    .filter (f) -> /^\d+\.txt$/.test f
+    .sort (a, b) -> parseInt(a) - parseInt(b)
+else
+  []
+
+if mockFiles.length
+  console.log "Running: #{filePath}"
+  console.log "Mocks: #{mockFiles.length} file(s)\n"
+  for mockFile in mockFiles
+    num = mockFile.replace '.txt', ''
+    mockPath = join mockDir, mockFile
+    console.log "--- Mock #{num}: #{mockPath} ---"
+    input = readFileSync mockPath
+    spawnSync 'node', [filePath], { input, stdio: ['pipe', 'inherit', 'inherit'] }
+    console.log ''
+  process.exit 0
+else
+  console.log "Running: #{filePath}"
+  console.log "(Input: ^Z + Enter to execute)\n"
+  result = spawnSync 'node', [filePath], { stdio: 'inherit' }
+  process.exit result.status ? 0
