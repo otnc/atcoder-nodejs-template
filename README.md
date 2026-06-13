@@ -52,7 +52,13 @@ scripts/
   nvm-restore.coffee   # バージョン復元（OS 判定ディスパッチャー）
   nvm-restore.ps1      # Windows 用
   nvm-restore.sh       # Unix/macOS 用
-template.js            # 問題ファイルのテンプレート
+  mini.coffee          # 提出コードの minify（バックアップ付き）
+  mini-restore.coffee  # minify 前のバックアップから復元
+  help.coffee          # ヘルプ表示（各スクリプトの @usage / @desc を集約）
+template.js            # 問題ファイルの既定テンプレート
+templates/             # 追加テンプレート（pnpm start で選択可能）
+  fast.js              # 高速 I/O（バッファ出力 + 高速トークン読み込み）
+  acl.js               # 高速 I/O + AC Library 風データ構造（UnionFind / Fenwick / SegTree）
 .nvmrc                 # 使用する Node.js バージョン
 ```
 
@@ -68,17 +74,56 @@ pnpm nvm:restore  # .nvm-prev のバージョンに戻す
 ### 問題ファイルを作成する
 
 ```bash
-pnpm start <問題番号>
+pnpm start <問題番号> [テンプレート] [-f]
 ```
 
-今日の日付（JST）のディレクトリ `q/YYYYMMDD/` に `<問題番号>.js` を `template.js` をもとに生成します。
+今日の日付（JST）のディレクトリ `q/YYYYMMDD/` に `<問題番号>.js` を生成します。
 
 ```bash
 pnpm start a
-# => Created: D:\...\q\20260516\a.js
+# => Created: D:\...\q\20260516\a.js  (template: default)
 ```
 
-ファイルが既に存在する場合は上書きせずスキップします。
+ファイルが既に存在する場合は上書きせずスキップします。`-f`（`--force`）を付けると上書きします。
+
+#### テンプレートの切り替え
+
+第2引数でテンプレートを指定できます。省略時は `default`（ルートの `template.js`）です。
+
+```bash
+pnpm start a          # default（template.js）
+pnpm start a fast     # templates/fast.js
+pnpm start a acl -f   # templates/acl.js で上書き
+```
+
+| テンプレート | 内容 |
+| --- | --- |
+| `default` | 最小構成（`template.js`） |
+| `fast` | 高速 I/O。出力をバッファに貯めて最後に 1 回だけ書き出し、`next()` / `nextInt()` でトークンを順に読む |
+| `acl` | `fast` + AC Library 風データ構造（`UnionFind` / `Fenwick`(BIT) / `SegTree`）を同梱 |
+
+`templates/` に `.js` を追加すれば、そのファイル名（拡張子なし）でそのまま選択できます。存在しない名前を指定すると利用可能な一覧を表示します。
+
+各テンプレートのヘルパー・データ構造の使用例は [README.code.md](README.code.md) を参照してください。
+
+> AtCoder のジャッジは提出した 1 ファイルのみを実行するため、これらの高速化・データ構造は「提出ファイルに同梱する自作コード」として動作します（外部パッケージの `require` は不可）。
+
+### 提出コードを minify する
+
+```bash
+pnpm mini <問題番号> [日付]          # 問題ファイルを terser で minify（元ファイルを上書き）
+pnpm mini:restore <問題番号> <番号> [日付]  # minify 前のバックアップから復元
+```
+
+`pnpm mini` は上書き前に `<問題番号>-bak_<連番>.js` としてバックアップを保存します。`pnpm mini:restore` でその連番を指定して元に戻せます。
+
+```bash
+pnpm mini a
+# Backup : q/20260516/a-bak_1.js
+# Minify : q/20260516/a.js
+# Size   : 264 -> 149 bytes (-44%)
+pnpm mini:restore a 1
+```
 
 ### 問題を実行する
 
