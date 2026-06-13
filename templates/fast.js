@@ -9,7 +9,6 @@ const rep = (n, f) => {
 const sortAsc = (a) => a.sort((x, y) => x - y)
 const sortDesc = (a) => a.sort((x, y) => y - x)
 
-// 二分探索（a は昇順ソート済み前提）
 const lowerBound = (a, x) => {
   let lo = 0,
     hi = a.length
@@ -30,7 +29,6 @@ const upperBound = (a, x) => {
   }
   return lo
 }
-// 答えで二分探索（f(ok)=true, f(ng)=false の境界の ok 側を返す）
 const bisect = (ok, ng, f) => {
   while (Math.abs(ok - ng) > 1) {
     const m = ng + Math.floor((ok - ng) / 2)
