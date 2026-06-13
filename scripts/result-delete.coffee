@@ -1,3 +1,6 @@
+# @usage pnpm result:delete <問題番号> <番号> [日付]
+# @desc  期待出力を削除
+
 { existsSync, readdirSync, statSync, unlinkSync } = require 'fs'
 { join } = require 'path'
 dayjs    = require 'dayjs'

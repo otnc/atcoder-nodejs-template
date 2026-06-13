@@ -1,3 +1,7 @@
+# @usage pnpm test <問題番号> [日付]
+# @desc  問題ファイルを実行（モックがあれば自動実行・期待出力と比較）
+# @desc  日付省略時は今日（JST）優先、なければ最新を使用
+
 { existsSync, readdirSync, statSync, readFileSync } = require 'fs'
 { join } = require 'path'
 { spawnSync } = require 'child_process'

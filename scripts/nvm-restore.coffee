@@ -1,3 +1,6 @@
+# @usage pnpm nvm:restore
+# @desc  .nvm-prev のバージョンに戻す
+
 { spawnSync } = require 'child_process'
 { join } = require 'path'
 { platform } = require 'os'

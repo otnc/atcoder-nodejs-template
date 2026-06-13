@@ -1,3 +1,6 @@
+# @usage pnpm mock:delete <問題番号> <番号> [日付]
+# @desc  モック入力を削除
+
 { existsSync, readdirSync, statSync, unlinkSync } = require 'fs'
 { join } = require 'path'
 dayjs    = require 'dayjs'

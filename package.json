@@ -13,7 +13,8 @@
     "format": "coffee scripts/format.coffee",
     "ai": "coffee scripts/ai.coffee",
     "nvm": "coffee scripts/nvm.coffee",
-    "nvm:restore": "coffee scripts/nvm-restore.coffee"
+    "nvm:restore": "coffee scripts/nvm-restore.coffee",
+    "q": "coffee scripts/help.coffee"
   },
   "keywords": [],
   "author": "",

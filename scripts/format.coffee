@@ -1,3 +1,6 @@
+# @usage pnpm format [<問題番号> [日付]]
+# @desc  問題ファイル（省略時はプロジェクト全体）を Prettier でフォーマット
+
 { existsSync, readdirSync, statSync } = require 'fs'
 { join } = require 'path'
 { spawnSync } = require 'child_process'

@@ -1,3 +1,6 @@
+# @usage pnpm nvm
+# @desc  .nvmrc のバージョンへ切り替え（現在を .nvm-prev に保存）
+
 { spawnSync } = require 'child_process'
 { join } = require 'path'
 { platform } = require 'os'

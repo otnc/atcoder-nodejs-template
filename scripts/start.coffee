@@ -1,3 +1,6 @@
+# @usage pnpm start <問題番号>
+# @desc  q/YYYYMMDD/<問題番号>.js を template.js から生成
+
 { existsSync, mkdirSync, copyFileSync } = require 'fs'
 { join } = require 'path'
 dayjs    = require 'dayjs'

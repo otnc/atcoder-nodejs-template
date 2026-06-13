@@ -1,3 +1,6 @@
+# @usage pnpm mock <問題番号> <番号> [日付]
+# @desc  stdin をモック入力として保存（^Z + Enter で確定）
+
 { existsSync, mkdirSync, readdirSync, statSync, readFileSync, writeFileSync } = require 'fs'
 { join } = require 'path'
 dayjs    = require 'dayjs'
